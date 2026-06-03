@@ -505,8 +505,6 @@
     <span>Consulta de relatórios salvos</span>
   </div>
   <nav>
-    <a class="nav-link" href="etac-portal.html">⚙️ Processo</a>
-    <a class="nav-link" href="etac-relatorio.html">📋 Relatório</a>
     <a class="nav-link active" href="etac-historico.html">🗂️ Histórico</a>
   </nav>
 </header>
@@ -514,7 +512,7 @@
 <main>
   <p class="section-label">Consulta operacional</p>
   <h2 class="section-title">Histórico de Relatórios</h2>
-  <p class="section-desc">Todos os relatórios salvos neste navegador. Clique em uma data para visualizar ou editar.</p>
+  <p class="section-desc">Consulta de relatórios registrados pelos operadores. Acesso somente leitura.</p>
 
   <!-- STATS -->
   <div class="stats-bar" id="stats-bar">
@@ -665,7 +663,7 @@
 
     let html = `
       <div class="view-actions">
-        <a href="etac-relatorio.html?key=${key}" class="btn btn-primary">✏️ Editar relatório</a>
+        <button class="btn btn-ghost" onclick="window.print()">🖨️ Imprimir</button>
         <button class="btn btn-ghost" onclick="window.print()">🖨️ Imprimir</button>
         <button class="btn btn-danger" onclick="excluirRelatorio('${key}')">🗑️ Excluir</button>
       </div>
