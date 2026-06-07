@@ -605,13 +605,8 @@
     const q=document.getElementById('filtro').value.toLowerCase().trim();
     if(!q){renderizarLista(todosRelatorios);return;}
     const filtrados=todosRelatorios.filter(r=>{
-      const d=r.dados;
-      const id=d.id||{};
-      const textoBase=[
-        fmt(id.data||''), id.turno||'', id.operador||'', id.obs||'',
-        id.silica_tlm1||'', id.silica_tlm2||'', id.tlm_obs||'',
-        id.regenerado||'', id.tlm_qual||''
-      ].join(' ').toLowerCase();
+      const d=r.dados, id=d.id||{};
+      const textoBase=[fmt(id.data||''),id.turno||'',id.operador||'',id.obs||'',id.silica_tlm1||'',id.silica_tlm2||'',id.tlm_obs||'',id.regenerado||'',id.tlm_qual||''].join(' ').toLowerCase();
       const ocTexto=(d.ocorrencias||[]).map(o=>o.desc||'').join(' ').toLowerCase();
       const prodTexto=(d.produtos||[]).map(p=>`${p.nome||''} ${p.local||''} ${p.troca||''}`).join(' ').toLowerCase();
       const qualTexto=(d.qualidade||[]).flat().join(' ').toLowerCase();
@@ -619,6 +614,9 @@
       return (textoBase+ocTexto+prodTexto+qualTexto+vazTexto).includes(q);
     });
     renderizarLista(filtrados);
+    // Abrir automaticamente o primeiro resultado
+    if(filtrados.length===1) visualizarRelatorio(filtrados[0].key);
+    else if(filtrados.length>1 && filtrados[0]) visualizarRelatorio(filtrados[0].key);
   }
 
   function renderizarLista(items){
@@ -655,8 +653,8 @@
     const d=item.dados,id=d.id||{};
     const viewer=document.getElementById('viewer');
 
-    const labVaz=['Vazão de Captação','Nível Tanque de Incêndio','Pressão Alimentação OR1','Pressão Alimentação OR2','Pressão Filtro Cartucho OR1','Pressão Filtro Cartucho OR2','Vazão Permeado OR1','Vazão Permeado OR2','Vazão Rejeito OR1','Vazão Rejeito OR2','Pressão Diferencial Filtros','Nível Tanque Desmi'];
-    const labQual=['Turbidez','Cloro Residual Livre','Condutividade OR1','SDI OR1','SDI OR2','Eficiência OR1','Eficiência OR2'];
+    const labVaz=['Vazão de Captação','Nível Tanque de Incêndio','Pressão Alimentação OR1','Pressão Alimentação OR2','Pressão Filtro Cartucho OR1','Pressão Filtro Cartucho OR2','Vazão Permeado OR1','Vazão Permeado OR2','Vazão Rejeito OR1','Vazão Rejeito OR2','Nível Tanque Desmi'];
+    const labQual=['Turbidez','Cloro Residual Livre','SDI OR1','SDI OR2','Eficiência OR1','Eficiência OR2'];
 
     let html=`
       <div class="view-actions">
