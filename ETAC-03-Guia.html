@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETAC — Guia do Operador | Cargill</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:       #00703C;
+  --green-dark:  #004D29;
+  --green-light: #E8F5EE;
+  --green-pale:  #F2FAF5;
+  --amber:       #B45309;
+  --amber-bg:    #FFFBEB;
+  --amber-bdr:   rgba(180,83,9,.22);
+  --blue:        #1B5EA6;
+  --blue-bg:     #EEF4FF;
+  --blue-bdr:    rgba(27,94,166,.22);
+  --red:         #B91C1C;
+  --red-bg:      #FFF1F1;
+  --red-bdr:     rgba(185,28,28,.22);
+  --bg:          #F4F6F5;
+  --surface:     #FFFFFF;
+  --surface2:    #F8FAF9;
+  --border:      #D5E3DA;
+  --border-2:    #B3C9BB;
+  --text:        #192420;
+  --text-2:      #3A4F46;
+  --muted:       #687870;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --r: 13px;
+  --sh: 0 2px 14px rgba(0,0,0,.06);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; }
+
+/* ── HEADER ── */
+header {
+  background:var(--green); border-bottom:3px solid var(--green-dark);
+  position:sticky; top:0; z-index:200;
+}
+.hinner {
+  max-width:1200px; margin:0 auto; padding:0 40px;
+  display:flex; align-items:stretch; min-height:62px;
+}
+.brand {
+  display:flex; align-items:center; gap:11px;
+  padding-right:26px; margin-right:26px;
+  border-right:1px solid rgba(255,255,255,.17); flex-shrink:0;
+}
+.brand-mark {
+  width:35px; height:35px; background:white; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+}
+.brand-name{font-weight:700;font-size:16px;color:white;letter-spacing:-.3px;}
+.brand-sub{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+.hinfo{display:flex;flex-direction:column;justify-content:center;}
+.hinfo h1{font-size:13.5px;font-weight:600;color:white;}
+.hinfo span{font-family:var(--mono);font-size:9.5px;color:rgba(255,255,255,.55);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.hnav{margin-left:auto;display:flex;align-items:center;}
+.nav-a{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:0 17px;height:100%;
+  color:rgba(255,255,255,.65);font-size:12.5px;font-weight:600;
+  text-decoration:none;border-bottom:3px solid transparent;transition:all .18s;
+}
+.nav-a:hover{color:white;background:rgba(255,255,255,.09);}
+.nav-a.on{color:white;border-bottom-color:white;background:rgba(255,255,255,.11);}
+
+/* ── LAYOUT ── */
+.page{max-width:1200px;margin:0 auto;padding:38px 40px 100px;}
+
+/* ── PAGE HEADER ── */
+.page-hdr{margin-bottom:38px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
+.page-title{font-size:29px;font-weight:700;color:var(--text);letter-spacing:-.4px;}
+.page-desc{margin-top:7px;font-size:13px;color:var(--muted);line-height:1.65;max-width:540px;}
+.hdr-chips{display:flex;gap:8px;flex-shrink:0;}
+.hchip{background:var(--green-light);border:1px solid var(--border-2);border-radius:20px;padding:5px 14px;font-family:var(--mono);font-size:10.5px;color:var(--green-dark);white-space:nowrap;}
+
+/* ── TWO-COL ── */
+.two-col{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:start;}
+
+/* ── SIDE NAV ── */
+.side-nav{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:14px;position:sticky;top:82px;box-shadow:var(--sh);
+}
+.sn-title{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.sn-item{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 10px;border-radius:8px;
+  cursor:pointer;transition:all .15s;
+  font-size:12px;font-weight:600;color:var(--text-2);
+  text-decoration:none;border:none;background:none;width:100%;text-align:left;
+}
+.sn-item:hover{background:var(--green-pale);color:var(--green);}
+.sn-item.active{background:var(--green-light);color:var(--green-dark);}
+.sn-icon{font-size:13px;flex-shrink:0;width:18px;text-align:center;}
+.sn-sep{height:1px;background:var(--border);margin:6px 0;}
+
+/* ── CONTENT ── */
+.content{display:flex;flex-direction:column;gap:22px;}
+
+/* ── SECTION CARD ── */
+.sec{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);}
+.sec-hdr{
+  display:flex;align-items:center;gap:10px;
+  padding:15px 22px;background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  cursor:pointer;user-select:none;
+}
+.sec-hdr:hover{background:var(--green-pale);}
+.sec-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.dot-green{background:var(--green);}
+.dot-blue{background:var(--blue);}
+.dot-amber{background:var(--amber);}
+.dot-red{background:var(--red);}
+.sec-title{font-size:14px;font-weight:700;color:var(--text);flex:1;}
+.sec-toggle{font-size:13px;color:var(--muted);transition:transform .2s;}
+.sec-toggle.open{transform:rotate(180deg);}
+.sec-body{padding:22px;display:flex;flex-direction:column;gap:18px;}
+.sec-body.collapsed{display:none;}
+
+/* ── PROSE ── */
+.prose{font-size:13px;color:var(--text-2);line-height:1.75;}
+.prose strong{font-weight:700;color:var(--text);}
+.prose p{margin-bottom:10px;}
+.prose p:last-child{margin-bottom:0;}
+
+/* ── CHECKLIST ── */
+.checklist{display:flex;flex-direction:column;gap:0;}
+.cl-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 12px;border-radius:8px;
+  transition:background .15s;cursor:pointer;
+  border-bottom:1px solid var(--border);
+}
+.cl-item:last-child{border-bottom:none;}
+.cl-item:hover{background:var(--green-pale);}
+.cl-item.checked{opacity:.6;}
+.cl-item.checked .cl-text{text-decoration:line-through;color:var(--muted);}
+.cl-check{
+  width:20px;height:20px;border-radius:5px;
+  border:2px solid var(--border-2);background:white;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;transition:all .15s;
+  font-size:11px;color:transparent;
+}
+.cl-item.checked .cl-check{background:var(--green);border-color:var(--green);color:white;}
+.cl-text{font-size:13px;color:var(--text);line-height:1.55;}
+.cl-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:.3px;}
+.cl-badge{
+  margin-left:auto;font-family:var(--mono);font-size:9px;
+  padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;
+}
+.cb-green{background:var(--green-light);color:var(--green-dark);border:1px solid var(--border-2);}
+.cb-amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bdr);}
+.cb-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bdr);}
+.cb-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bdr);}
+
+/* ── PARAM TABLE ── */
+.ptable{width:100%;border-collapse:collapse;font-size:13px;}
+.ptable th{
+  background:var(--surface2);font-family:var(--mono);font-size:9.5px;
+  letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);
+  padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+.ptable td{
+  padding:11px 14px;border-bottom:1px solid var(--border);
+  vertical-align:middle;color:var(--text-2);
+}
+.ptable tr:last-child td{border-bottom:none;}
+.ptable tr:hover td{background:rgba(0,112,60,.025);}
+.pval{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text);}
+.plimit{font-family:var(--mono);font-size:11px;color:var(--muted);}
+
+/* ── ALERT BOX ── */
+.alert-box{
+  display:flex;gap:13px;border-radius:10px;padding:14px 16px;
+  font-size:13px;line-height:1.65;
+}
+.alert-box.red{background:var(--red-bg);border:1px solid var(--red-bdr);color:#7F1D1D;}
+.alert-box.amber{background:var(--amber-bg);border:1px solid var(--amber-bdr);color:#78350F;}
+.alert-box.blue{background:var(--blue-bg);border:1px solid var(--blue-bdr);color:#1E3A5F;}
+.alert-box.green{background:var(--green-light);border:1px solid var(--border-2);color:var(--green-dark);}
+.alert-icon{font-size:17px;flex-shrink:0;margin-top:1px;}
+.alert-content{}
+.alert-title{font-weight:700;margin-bottom:4px;font-size:13px;}
+
+/* ── STEP LIST ── */
+.step-list{display:flex;flex-direction:column;gap:0;position:relative;}
+.step-item{display:grid;grid-template-columns:36px 1fr;gap:0 16px;}
+.step-left{display:flex;flex-direction:column;align-items:center;}
+.step-num{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--green-light);border:2px solid var(--border-2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:12px;font-weight:600;color:var(--green);
+  flex-shrink:0;z-index:1;
+}
+.step-line{width:2px;flex:1;background:var(--border);min-height:20px;margin:4px 0;}
+.step-item:last-child .step-line{display:none;}
+.step-body-inner{padding-bottom:18px;}
+.step-label{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:4px;padding-top:6px;}
+.step-detail{font-size:12.5px;color:var(--text-2);line-height:1.65;}
+
+/* ── FREQ GRID ── */
+.freq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.fcard{
+  background:var(--surface2);border:1px solid var(--border);border-radius:10px;
+  padding:14px 15px;
+}
+.fcard-freq{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.fcard-item{font-size:12px;color:var(--text-2);line-height:1.6;margin-bottom:3px;padding-left:10px;position:relative;}
+.fcard-item::before{content:'·';position:absolute;left:0;color:var(--green);}
+
+/* ── ALARM TABLE ── */
+.alarm-row{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);}
+.alarm-row:last-child{border-bottom:none;}
+.alarm-sev{
+  width:6px;align-self:stretch;flex-shrink:0;
+  border-radius:4px 0 0 4px;
+}
+.sev-crit{background:var(--red);}
+.sev-atenc{background:var(--amber);}
+.sev-info{background:var(--blue);}
+.alarm-inner{padding:11px 14px;flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:center;}
+.alarm-name{font-size:13px;font-weight:600;color:var(--text);}
+.alarm-cause{font-size:12px;color:var(--text-2);}
+.alarm-action{font-size:12px;color:var(--text-2);}
+
+/* ── EDIT BAR ── */
+.editbar{
+  position:fixed;bottom:20px;right:20px;z-index:500;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:40px;padding:6px 8px 6px 16px;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 8px 40px rgba(0,0,0,.1);
+}
+.eb-btn{
+  border:1px solid var(--border);color:var(--muted);
+  font-family:var(--sans);font-size:11.5px;font-weight:600;
+  padding:7px 16px;border-radius:30px;cursor:pointer;transition:all .18s;
+  background:transparent;white-space:nowrap;
+}
+.eb-btn:hover{color:var(--text);border-color:var(--text);}
+.eb-btn.on{background:var(--green);color:white;border-color:var(--green);}
+.eb-save{background:var(--green);border:none;color:white;font-family:var(--sans);font-size:11.5px;font-weight:600;padding:7px 16px;border-radius:30px;cursor:pointer;transition:all .18s;}
+.eb-save:hover{background:var(--green-dark);}
+
+/* ── CHECKLIST RESET ── */
+.cl-reset{
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;border:1px solid var(--border);color:var(--muted);
+  font-family:var(--sans);font-size:11px;font-weight:600;
+  padding:5px 14px;border-radius:7px;cursor:pointer;transition:all .15s;
+  margin-top:10px;
+}
+.cl-reset:hover{background:var(--green-pale);color:var(--green);border-color:var(--green);}
+
+/* EDITABLE */
+body.edit-on [data-ed]:hover{outline:2px dashed rgba(0,112,60,.4);border-radius:3px;cursor:text;}
+body.edit-on [data-ed]:focus{outline:2px solid var(--green);border-radius:3px;background:rgba(0,112,60,.04);}
+
+/* ── PRINT ── */
+@media print{
+  header,.editbar,.side-nav{display:none!important;}
+  .two-col{grid-template-columns:1fr;}
+  .sec-body.collapsed{display:flex!important;}
+  .page{padding:20px;}
+}
+@media(max-width:900px){
+  .two-col{grid-template-columns:1fr;}
+  .side-nav{display:none;}
+}
+@media(max-width:680px){
+  .hinner{padding:0 16px;}
+  .page{padding:22px 16px 80px;}
+  .alarm-inner{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hinner">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3C7.5 3 4 6.8 4 11.2c0 5.6 8 11.8 8 11.8s8-6.2 8-11.8C20 6.8 16.5 3 12 3z" fill="#00703C"/>
+          <circle cx="12" cy="11" r="3.2" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Cargill</div>
+        <div class="brand-sub">ETAC</div>
+      </div>
+    </div>
+    <div class="hinfo">
+      <h1>Portal Operacional — ETA + Osmose Reversa</h1>
+      <span>Estação de Tratamento de Água</span>
+    </div>
+    <nav class="hnav">
+      <a href="ETAC-01-Processo.html"   class="nav-a">⚙ Processo</a>
+      <a href="ETAC-02-Relatorio.html"  class="nav-a">📋 Relatório</a>
+      <a href="ETAC-03-Guia.html"       class="nav-a on">📖 Guia do Operador</a>
+      <a href="ETAC-04-Documentos.html" class="nav-a">📁 Documentos</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="page-hdr">
+    <div>
+      <div class="eyebrow">Referência técnica operacional</div>
+      <div class="page-title">Guia do Operador</div>
+      <div class="page-desc">Checklists de rotina, parâmetros de controle, procedimentos de emergência, alarmes e frequência de manutenções. Documento de consulta rápida para o turno.</div>
+    </div>
+    <div class="hdr-chips">
+      <span class="hchip">ETA + OR</span>
+      <span class="hchip">Referência rápida</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+
+    <!-- SIDE NAV -->
+    <nav class="side-nav">
+      <div class="sn-title">Seções</div>
+      <a class="sn-item" href="#s-inicio"><span class="sn-icon">🟢</span>Início de Turno</a>
+      <a class="sn-item" href="#s-params"><span class="sn-icon">📊</span>Parâmetros</a>
+      <a class="sn-item" href="#s-or"><span class="sn-icon">💧</span>Osmose Reversa</a>
+      <a class="sn-item" href="#s-rotina"><span class="sn-icon">🔄</span>Rotinas Periódicas</a>
+      <a class="sn-item" href="#s-alarmes"><span class="sn-icon">🚨</span>Alarmes</a>
+      <a class="sn-item" href="#s-emergencia"><span class="sn-icon">🆘</span>Emergências</a>
+      <a class="sn-item" href="#s-quimicos"><span class="sn-icon">🧪</span>Produtos Químicos</a>
+      <a class="sn-item" href="#s-fim"><span class="sn-icon">🏁</span>Fim de Turno</a>
+      <div class="sn-sep"></div>
+      <a class="sn-item" href="ETAC-02-Relatorio.html"><span class="sn-icon">📋</span>Abrir Relatório</a>
+    </nav>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ① INÍCIO DE TURNO -->
+      <div class="sec" id="s-inicio">
+        <div class="sec-hdr" onclick="toggleSec(this)">
+          <div class="sec-dot dot-green"></div>
+          <div class="sec-title">🟢 Checklist — Início de Turno</div>
+          <span class="sec-toggle open">▾</span>
+        </div>
+        <div class="sec-body">
+          <div class="prose">
+            <p data-ed>Realize todas as verificações abaixo ao assumir o turno. Marque cada item conforme for verificado. O checklist é reiniciado a cada sessão — use o relatório diário para registro permanente.</p>
+          </div>
+          <div class="checklist" id="cl-inicio">
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Verificar nível dos reservatórios (bruto e tratado)</div><div class="cl-sub">Nível mínimo: 20% · Nível máximo operacional: 90%</div></div><span class="cl-badge cb-green">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Conferir pressão na adutora de captação</div><div class="cl-sub">Faixa normal: conforme projeto local</div></div><span class="cl-badge cb-green">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Verificar operação das bombas de captação</div><div class="cl-sub">Amperagem, vibração, temperatura do mancal</div></div><span class="cl-badge cb-green">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Conferir dosagem de coagulante e cloro</div><div class="cl-sub">Verificar bomba dosadora e estoque dos produtos</div></div><span class="cl-badge cb-green">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Realizar leitura do pH na entrada e saída</div><div class="cl-sub">Valor esperado: 6,5 – 8,5 na saída</div></div><span class="cl-badge cb-green">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Verificar turbidez da água clarificada</div><div class="cl-sub">Meta: &lt; 1,0 NTU na saída dos filtros</div></div><span class="cl-badge cb-amber">Atenção</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Checar painel de controle — alarmes ativos</div><div class="cl-sub">Nenhum alarme deve estar ativo sem justificativa</div></div><span class="cl-badge cb-red">Crítico</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Verificar pressão de alimentação das membranas OR</div><div class="cl-sub">Faixa: 10 – 15 bar (conforme projeto)</div></div><span class="cl-badge cb-green">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Conferir vasão do permeado e do rejeito</div><div class="cl-sub">Taxa de recuperação esperada: 70 – 80%</div></div><span class="cl-badge cb-green">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Receber passagem de turno do operador anterior</div><div class="cl-sub">Verificar pendências, ocorrências e observações</div></div><span class="cl-badge cb-blue">Rotina</span></div>
+          </div>
+          <button class="cl-reset" onclick="resetChecklist('cl-inicio')">↺ Reiniciar checklist</button>
+        </div>
+      </div>
+
+      <!-- ② PARÂMETROS -->
+      <div class="sec" id="s-params">
+        <div class="sec-hdr" onclick="toggleSec(this)">
+          <div class="sec-dot dot-blue"></div>
+          <div class="sec-title">📊 Parâmetros de Controle — ETA</div>
+          <span class="sec-toggle open">▾</span>
+        </div>
+        <div class="sec-body">
+          <div class="alert-box blue">
+            <span class="alert-icon">ℹ️</span>
+            <div><div class="alert-title" data-ed>Referência normativa</div><span data-ed>Os limites abaixo seguem a Portaria GM/MS 888/2021 (padrão de potabilidade) e os parâmetros de projeto da ETAC. Ajuste conforme laudo técnico atualizado.</span></div>
+          </div>
+          <div style="overflow-x:auto">
+          <table class="ptable">
+            <thead>
+              <tr>
+                <th>Parâmetro</th><th>Ponto de coleta</th><th>Meta operacional</th><th>Limite máximo</th><th>Unidade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td data-ed>pH</td><td data-ed>Saída / distribuição</td><td class="pval" data-ed>6,5 – 8,5</td><td class="plimit" data-ed>6,0 – 9,0</td><td data-ed>—</td></tr>
+              <tr><td data-ed>Turbidez</td><td data-ed>Pós-filtros / saída</td><td class="pval" data-ed>&lt; 1,0</td><td class="plimit" data-ed>5,0 NTU</td><td data-ed>NTU</td></tr>
+              <tr><td data-ed>Cloro Residual Livre</td><td data-ed>Saída / rede</td><td class="pval" data-ed>0,5 – 1,5</td><td class="plimit" data-ed>2,0 mg/L</td><td data-ed>mg/L</td></tr>
+              <tr><td data-ed>Cor Aparente</td><td data-ed>Saída</td><td class="pval" data-ed>&lt; 10</td><td class="plimit" data-ed>15 uH</td><td data-ed>uH</td></tr>
+              <tr><td data-ed>Condutividade</td><td data-ed>Permeado OR</td><td class="pval" data-ed>&lt; 300</td><td class="plimit" data-ed>500 µS/cm</td><td data-ed>µS/cm</td></tr>
+              <tr><td data-ed>Temperatura</td><td data-ed>Entrada OR</td><td class="pval" data-ed>15 – 35</td><td class="plimit" data-ed>45 °C</td><td data-ed>°C</td></tr>
+              <tr><td data-ed>SDI</td><td data-ed>Alimentação OR</td><td class="pval" data-ed>&lt; 3</td><td class="plimit" data-ed>5</td><td data-ed>—</td></tr>
+              <tr><td data-ed>Taxa de Recuperação OR</td><td data-ed>Sistema OR</td><td class="pval" data-ed>75%</td><td class="plimit" data-ed>80%</td><td data-ed>%</td></tr>
+              <tr><td data-ed>Pressão Alimentação OR</td><td data-ed>Bomba HP</td><td class="pval" data-ed>10 – 12</td><td class="plimit" data-ed>15 bar</td><td data-ed>bar</td></tr>
+              <tr><td data-ed>Cloro Total</td><td data-ed>Alimentação OR</td><td class="pval" data-ed>&lt; 0,1</td><td class="plimit" data-ed>0,1 mg/L</td><td data-ed>mg/L</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ OSMOSE REVERSA -->
+      <div class="sec" id="s-or">
+        <div class="sec-hdr" onclick="toggleSec(this)">
+          <div class="sec-dot dot-blue"></div>
+          <div class="sec-title">💧 Procedimento de Operação — Osmose Reversa</div>
+          <span class="sec-toggle open">▾</span>
+        </div>
+        <div class="sec-body">
+          <div class="alert-box amber">
+            <span class="alert-icon">⚠️</span>
+            <div><div class="alert-title" data-ed>Atenção antes de operar</div><span data-ed>Nunca alimente as membranas com água com cloro residual acima de 0,1 mg/L — o cloro danifica irreversivelmente as membranas de poliamida. Verifique sempre o cloro livre antes de ligar a bomba de alta pressão.</span></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:10px" data-ed>Sequência de partida</div>
+          <div class="step-list">
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Verificar pré-filtros e cartucho</div><div class="step-detail" data-ed>Confirmar que os filtros de cartucho (ou multimídia) estão operacionais, sem colmatação. Perda de carga aceitável: &lt; 0,5 bar.</div></div>
+            </div>
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Confirmar SDI e turbidez da alimentação</div><div class="step-detail" data-ed>SDI &lt; 5 e turbidez &lt; 1 NTU. Se fora dos limites, não ligar a bomba HP — identificar e corrigir a causa.</div></div>
+            </div>
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Verificar cloro livre na alimentação</div><div class="step-detail" data-ed>Cloro livre &lt; 0,1 mg/L obrigatório. Caso positivo, aumentar dosagem de bissulfito de sódio (desclorador) e aguardar confirmação laboratorial.</div></div>
+            </div>
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Confirmar dosagem de antiincrustante</div><div class="step-detail" data-ed>Antiincrustante deve estar sendo dosado antes da bomba HP. Verificar nível do tambor e funcionamento da bomba dosadora.</div></div>
+            </div>
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Ligar bomba de alta pressão</div><div class="step-detail" data-ed>Partir a bomba HP com a válvula de rejeito parcialmente aberta. Aumentar pressão gradualmente — nunca fazer partida com sistema pressurizado bruscamente.</div></div>
+            </div>
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Ajustar taxa de recuperação</div><div class="step-detail" data-ed>Regular a válvula de rejeito até atingir a taxa de recuperação de projeto (70–80%). Registrar vazão do permeado e do concentrado.</div></div>
+            </div>
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">7</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Monitorar e registrar parâmetros</div><div class="step-detail" data-ed>Após estabilização (≈ 15 min), registrar: pressão alimentação, pressão concentrado, pressão permeado, condutividade do permeado, temperatura e vazões.</div></div>
+            </div>
+          </div>
+          <div style="margin-top:4px;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:10px" data-ed>Sequência de parada</div>
+          <div class="step-list">
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Reduzir gradualmente a pressão</div><div class="step-detail" data-ed>Abrir válvula de rejeito lentamente para reduzir a pressão antes de desligar a bomba. Evitar golpes de aríete.</div></div>
+            </div>
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Desligar bomba HP</div><div class="step-detail" data-ed>Desligar a bomba de alta pressão. Aguardar pressurização total cessar antes de qualquer manuseio.</div></div>
+            </div>
+            <div class="step-item">
+              <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+              <div class="step-body-inner"><div class="step-label" data-ed>Flush das membranas (se parada prolongada)</div><div class="step-detail" data-ed>Para paradas &gt; 4h, realizar flush com água permeada ou pré-tratada por 10–15 minutos para deslocar o concentrado das membranas e evitar fouling.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ④ ROTINAS PERIÓDICAS -->
+      <div class="sec" id="s-rotina">
+        <div class="sec-hdr" onclick="toggleSec(this)">
+          <div class="sec-dot dot-amber"></div>
+          <div class="sec-title">🔄 Rotinas Periódicas de Manutenção</div>
+          <span class="sec-toggle open">▾</span>
+        </div>
+        <div class="sec-body">
+          <div class="freq-grid">
+            <div class="fcard">
+              <div class="fcard-freq">A cada turno</div>
+              <div class="fcard-item" data-ed>Leitura de pH, turbidez e cloro</div>
+              <div class="fcard-item" data-ed>Registro de vazões e pressões</div>
+              <div class="fcard-item" data-ed>Inspeção visual dos filtros</div>
+              <div class="fcard-item" data-ed>Verificar dosagem de químicos</div>
+              <div class="fcard-item" data-ed>Condutividade do permeado</div>
+            </div>
+            <div class="fcard">
+              <div class="fcard-freq">Diário</div>
+              <div class="fcard-item" data-ed>Jar-test para otimizar coagulante</div>
+              <div class="fcard-item" data-ed>SDI da alimentação das membranas</div>
+              <div class="fcard-item" data-ed>Inspeção das bombas dosadoras</div>
+              <div class="fcard-item" data-ed>Limpeza das grades e desarenador</div>
+              <div class="fcard-item" data-ed>Verificar estoque de químicos</div>
+            </div>
+            <div class="fcard">
+              <div class="fcard-freq">Semanal</div>
+              <div class="fcard-item" data-ed>Retrolavagem dos filtros de areia</div>
+              <div class="fcard-item" data-ed>Inspeção visual das membranas</div>
+              <div class="fcard-item" data-ed>Teste de cloro nos pontos de rede</div>
+              <div class="fcard-item" data-ed>Lubrificação de válvulas manuais</div>
+              <div class="fcard-item" data-ed>Calibração dos analisadores</div>
+            </div>
+            <div class="fcard">
+              <div class="fcard-freq">Mensal</div>
+              <div class="fcard-item" data-ed>Troca do filtro de cartucho (OR)</div>
+              <div class="fcard-item" data-ed>Análise laboratorial completa</div>
+              <div class="fcard-item" data-ed>Inspeção elétrica dos painéis</div>
+              <div class="fcard-item" data-ed>Limpeza do decantador / flotador</div>
+              <div class="fcard-item" data-ed>Performance test das membranas</div>
+            </div>
+            <div class="fcard">
+              <div class="fcard-freq">Trimestral</div>
+              <div class="fcard-item" data-ed>CIP das membranas de OR</div>
+              <div class="fcard-item" data-ed>Inspeção dos vasos de pressão</div>
+              <div class="fcard-item" data-ed>Calibração de medidores de vazão</div>
+              <div class="fcard-item" data-ed>Revisão das bombas centrífugas</div>
+            </div>
+            <div class="fcard">
+              <div class="fcard-freq">Anual</div>
+              <div class="fcard-item" data-ed>Inspeção estrutural dos reservatórios</div>
+              <div class="fcard-item" data-ed>Avaliação de troca de membranas</div>
+              <div class="fcard-item" data-ed>Revisão geral das bombas HP</div>
+              <div class="fcard-item" data-ed>Atualização dos documentos técnicos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑤ ALARMES -->
+      <div class="sec" id="s-alarmes">
+        <div class="sec-hdr" onclick="toggleSec(this)">
+          <div class="sec-dot dot-red"></div>
+          <div class="sec-title">🚨 Alarmes e Condições de Anormalidade</div>
+          <span class="sec-toggle open">▾</span>
+        </div>
+        <div class="sec-body">
+          <div style="overflow-x:auto;border:1px solid var(--border);border-radius:10px;">
+            <!-- header -->
+            <div style="display:grid;grid-template-columns:6px 1fr 1fr 1fr;background:var(--surface2);border-bottom:1px solid var(--border);">
+              <div></div>
+              <div style="padding:10px 14px;font-family:var(--mono);font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)">Alarme / Condição</div>
+              <div style="padding:10px 14px;font-family:var(--mono);font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)">Causa provável</div>
+              <div style="padding:10px 14px;font-family:var(--mono);font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)">Ação imediata</div>
+            </div>
+            <!-- rows -->
+            <div class="alarm-row"><div class="alarm-sev sev-crit"></div><div class="alarm-inner"><div class="alarm-name" data-ed>Pressão OR acima do limite</div><div class="alarm-cause" data-ed>Fouling de membrana, filtro colmatado, válvula fechada</div><div class="alarm-action" data-ed>Desligar bomba HP imediatamente. Verificar filtros. Acionar manutenção.</div></div></div>
+            <div class="alarm-row"><div class="alarm-sev sev-crit"></div><div class="alarm-inner"><div class="alarm-name" data-ed>Cloro livre &gt; 0,1 mg/L na OR</div><div class="alarm-cause" data-ed>Falha no desclorador, superdosagem de cloro</div><div class="alarm-action" data-ed>Desligar sistema OR. Aumentar bissulfito. Aguardar reanalise.</div></div></div>
+            <div class="alarm-row"><div class="alarm-sev sev-crit"></div><div class="alarm-inner"><div class="alarm-name" data-ed>Falta de água no reservatório de captação</div><div class="alarm-cause" data-ed>Seca, falha na bomba, rompimento de adutora</div><div class="alarm-action" data-ed>Desligar todas as bombas. Acionar supervisão. Verificar manancial.</div></div></div>
+            <div class="alarm-row"><div class="alarm-sev sev-atenc"></div><div class="alarm-inner"><div class="alarm-name" data-ed>Turbidez elevada na saída dos filtros</div><div class="alarm-cause" data-ed>Filtro colmatado, falha na coagulação, retrolavagem necessária</div><div class="alarm-action" data-ed>Realizar retrolavagem. Checar dosagem de coagulante. Jar-test.</div></div></div>
+            <div class="alarm-row"><div class="alarm-sev sev-atenc"></div><div class="alarm-inner"><div class="alarm-name" data-ed>pH fora da faixa de operação</div><div class="alarm-cause" data-ed>Variação da água bruta, falha na dosagem</div><div class="alarm-action" data-ed>Ajustar dosagem de corretor de pH. Registrar e monitorar a cada 30 min.</div></div></div>
+            <div class="alarm-row"><div class="alarm-sev sev-atenc"></div><div class="alarm-inner"><div class="alarm-name" data-ed>Condutividade do permeado elevada</div><div class="alarm-cause" data-ed>Membrana degradada, O-ring rompido, by-pass não autorizado</div><div class="alarm-action" data-ed>Verificar integridade de membranas. Acionar manutenção especializada.</div></div></div>
+            <div class="alarm-row"><div class="alarm-sev sev-atenc"></div><div class="alarm-inner"><div class="alarm-name" data-ed>Queda de vazão do permeado</div><div class="alarm-cause" data-ed>Fouling, filtro de cartucho saturado, temperatura baixa</div><div class="alarm-action" data-ed>Trocar cartucho filtrante. Verificar temperatura. Programar CIP se recorrente.</div></div></div>
+            <div class="alarm-row"><div class="alarm-sev sev-info"></div><div class="alarm-inner"><div class="alarm-name" data-ed>Estoque de produto químico crítico</div><div class="alarm-cause" data-ed>Consumo acima do previsto, atraso em entrega</div><div class="alarm-action" data-ed>Comunicar ao responsável de almoxarifado. Acionar pedido de compra.</div></div></div>
+            <div class="alarm-row"><div class="alarm-sev sev-info"></div><div class="alarm-inner"><div class="alarm-name" data-ed>Falha em bomba dosadora</div><div class="alarm-cause" data-ed>Entupimento, desgaste de membrana, falha elétrica</div><div class="alarm-action" data-ed>Acionar bomba reserva. Registrar horário. Acionar manutenção.</div></div></div>
+          </div>
+          <div style="margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--muted)">
+            <span style="display:inline-block;width:10px;height:10px;background:var(--red);border-radius:2px;margin-right:6px"></span>Crítico — parar imediatamente &nbsp;&nbsp;
+            <span style="display:inline-block;width:10px;height:10px;background:var(--amber);border-radius:2px;margin-right:6px"></span>Atenção — agir em até 15 min &nbsp;&nbsp;
+            <span style="display:inline-block;width:10px;height:10px;background:var(--blue);border-radius:2px;margin-right:6px"></span>Informativo
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑥ EMERGÊNCIAS -->
+      <div class="sec" id="s-emergencia">
+        <div class="sec-hdr" onclick="toggleSec(this)">
+          <div class="sec-dot dot-red"></div>
+          <div class="sec-title">🆘 Procedimentos de Emergência</div>
+          <span class="sec-toggle open">▾</span>
+        </div>
+        <div class="sec-body">
+          <div class="alert-box red">
+            <span class="alert-icon">🚨</span>
+            <div><div class="alert-title" data-ed>Em qualquer emergência</div><span data-ed>1. Garantir a segurança das pessoas. 2. Isolar o sistema afetado. 3. Comunicar imediatamente a supervisão. 4. Registrar hora, condição e ação tomada no relatório do turno.</span></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px" data-ed>Contatos de emergência</div>
+          <table class="ptable">
+            <thead><tr><th>Função</th><th>Nome</th><th>Contato</th></tr></thead>
+            <tbody>
+              <tr><td data-ed>Supervisor de Operação</td><td data-ed>—</td><td data-ed contenteditable="false">—</td></tr>
+              <tr><td data-ed>Engenheiro de Turno</td><td data-ed>—</td><td data-ed>—</td></tr>
+              <tr><td data-ed>Manutenção Mecânica</td><td data-ed>—</td><td data-ed>—</td></tr>
+              <tr><td data-ed>Manutenção Elétrica</td><td data-ed>—</td><td data-ed>—</td></tr>
+              <tr><td data-ed>Laboratório / Qualidade</td><td data-ed>—</td><td data-ed>—</td></tr>
+              <tr><td data-ed>CIPA / Segurança do Trabalho</td><td data-ed>—</td><td data-ed>—</td></tr>
+            </tbody>
+          </table>
+          <div class="alert-box amber" style="margin-top:4px">
+            <span class="alert-icon">⚠️</span>
+            <div><div class="alert-title" data-ed>Vazamento de produto químico</div><span data-ed>Use EPI completo (luva, óculos, avental, bota). Isolar a área. Utilizar kit de contenção de derramamento. Não lavar para o ralo sem tratamento. Comunicar supervisão e segurança do trabalho imediatamente.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑦ PRODUTOS QUÍMICOS -->
+      <div class="sec" id="s-quimicos">
+        <div class="sec-hdr" onclick="toggleSec(this)">
+          <div class="sec-dot dot-amber"></div>
+          <div class="sec-title">🧪 Guia Rápido de Produtos Químicos</div>
+          <span class="sec-toggle open">▾</span>
+        </div>
+        <div class="sec-body">
+          <table class="ptable">
+            <thead><tr><th>Produto</th><th>Função</th><th>Ponto de dosagem</th><th>Dosagem típica</th><th>EPI obrigatório</th></tr></thead>
+            <tbody>
+              <tr><td data-ed>Hipoclorito de Sódio</td><td data-ed>Desinfecção</td><td data-ed>Pós-filtros / saída</td><td class="pval" data-ed>0,5 – 2,0 mg/L</td><td data-ed>Luva, óculos, avental</td></tr>
+              <tr><td data-ed>Sulfato de Alumínio / PAC</td><td data-ed>Coagulação</td><td data-ed>Câmara de mistura rápida</td><td class="pval" data-ed>Conforme jar-test</td><td data-ed>Luva, óculos</td></tr>
+              <tr><td data-ed>Polímero / Floculante</td><td data-ed>Floculação</td><td data-ed>Câmara de floculação</td><td class="pval" data-ed>0,1 – 1,0 mg/L</td><td data-ed>Luva, óculos</td></tr>
+              <tr><td data-ed>Antiincrustante</td><td data-ed>Proteção membranas</td><td data-ed>Pré-alimentação OR</td><td class="pval" data-ed>2 – 5 ppm</td><td data-ed>Luva, óculos</td></tr>
+              <tr><td data-ed>Bissulfito de Sódio</td><td data-ed>Descloração</td><td data-ed>Pré-alimentação OR</td><td class="pval" data-ed>1,8 mg/mg Cl₂</td><td data-ed>Luva, óculos, máscara</td></tr>
+              <tr><td data-ed>Ácido Cítrico / HCl</td><td data-ed>Limpeza CIP</td><td data-ed>Sistema OR (CIP)</td><td class="pval" data-ed>pH 2,0 – 2,5</td><td data-ed>Luva, óculos, avental, face shield</td></tr>
+              <tr><td data-ed>NaOH / Hidróxido de Sódio</td><td data-ed>Limpeza CIP / pH</td><td data-ed>Sistema OR (CIP)</td><td class="pval" data-ed>pH 11,0 – 12,0</td><td data-ed>Luva, óculos, avental, face shield</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ⑧ FIM DE TURNO -->
+      <div class="sec" id="s-fim">
+        <div class="sec-hdr" onclick="toggleSec(this)">
+          <div class="sec-dot dot-green"></div>
+          <div class="sec-title">🏁 Checklist — Fim de Turno</div>
+          <span class="sec-toggle open">▾</span>
+        </div>
+        <div class="sec-body">
+          <div class="prose">
+            <p data-ed>Antes de passar o turno, confirme todos os itens abaixo e registre as informações no relatório diário. A passagem de turno é crítica para a continuidade e segurança da operação.</p>
+          </div>
+          <div class="checklist" id="cl-fim">
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Preencher e salvar o relatório diário completo</div><div class="cl-sub">Incluir todas as leituras, ocorrências e intervenções do turno</div></div><span class="cl-badge cb-red">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Realizar leitura final de todos os parâmetros</div><div class="cl-sub">pH, cloro, turbidez, pressões e vazões OR</div></div><span class="cl-badge cb-green">Obrigatório</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Registrar nível dos estoques de químicos</div><div class="cl-sub">Comunicar se algum produto estiver abaixo de 20% do volume</div></div><span class="cl-badge cb-amber">Atenção</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Verificar se há alarmes ativos — registrar todos</div><div class="cl-sub">Nenhum alarme deve ser silenciado sem registro e justificativa</div></div><span class="cl-badge cb-red">Crítico</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Listar pendências para o próximo turno</div><div class="cl-sub">Manutenções, reposição de estoque, análises pendentes</div></div><span class="cl-badge cb-blue">Rotina</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Verificar limpeza da sala de química e área operacional</div><div class="cl-sub">EPI descartável no lixo correto, derramamentos contidos e limpos</div></div><span class="cl-badge cb-blue">Rotina</span></div>
+            <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-check">✓</div><div><div class="cl-text" data-ed>Passar o turno presencialmente ao operador da entrada</div><div class="cl-sub">Orientar sobre ocorrências, pendências e condição atual do sistema</div></div><span class="cl-badge cb-red">Obrigatório</span></div>
+          </div>
+          <button class="cl-reset" onclick="resetChecklist('cl-fim')">↺ Reiniciar checklist</button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /two-col -->
+</div><!-- /page -->
+
+<!-- EDITBAR -->
+<div class="editbar">
+  <button class="eb-btn" id="editBtn" onclick="toggleEdit()">✏️ Editar</button>
+  <button class="eb-btn" onclick="window.print()">🖨️ Imprimir</button>
+  <button class="eb-save" onclick="baixar()">⬇ Baixar</button>
+</div>
+
+<script>
+/* ── COLLAPSE SECTIONS ── */
+function toggleSec(hdr) {
+  const body = hdr.nextElementSibling;
+  const arrow = hdr.querySelector('.sec-toggle');
+  body.classList.toggle('collapsed');
+  arrow.classList.toggle('open');
+}
+
+/* ── CHECKLISTS ── */
+function toggleCheck(item) {
+  item.classList.toggle('checked');
+  saveChecklists();
+}
+
+function resetChecklist(id) {
+  document.querySelectorAll('#' + id + ' .cl-item').forEach(el => el.classList.remove('checked'));
+  saveChecklists();
+}
+
+function saveChecklists() {
+  const state = {};
+  document.querySelectorAll('.cl-item').forEach((el, i) => {
+    state[i] = el.classList.contains('checked');
+  });
+  sessionStorage.setItem('etac_guia_cl', JSON.stringify(state));
+}
+
+function loadChecklists() {
+  try {
+    const state = JSON.parse(sessionStorage.getItem('etac_guia_cl') || '{}');
+    document.querySelectorAll('.cl-item').forEach((el, i) => {
+      if (state[i]) el.classList.add('checked');
+    });
+  } catch(e){}
+}
+
+/* ── SIDE NAV ACTIVE ── */
+function updateActiveNav() {
+  const sections = document.querySelectorAll('.sec');
+  const navItems = document.querySelectorAll('.sn-item[href^="#"]');
+  const offset = 120;
+  let current = '';
+  sections.forEach(sec => {
+    if (sec.getBoundingClientRect().top < offset) current = '#' + sec.id;
+  });
+  navItems.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === current);
+  });
+}
+window.addEventListener('scroll', updateActiveNav);
+
+/* ── EDIT MODE ── */
+let editOn = false;
+function toggleEdit() {
+  editOn = !editOn;
+  const btn = document.getElementById('editBtn');
+  document.querySelectorAll('[data-ed]').forEach(el => {
+    if (editOn) el.setAttribute('contenteditable', 'true');
+    else el.removeAttribute('contenteditable');
+  });
+  document.body.classList.toggle('edit-on', editOn);
+  btn.textContent = editOn ? '✅ Sair edição' : '✏️ Editar';
+  btn.classList.toggle('on', editOn);
+}
+
+/* ── DOWNLOAD ── */
+function baixar() {
+  const clone = document.documentElement.cloneNode(true);
+  clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+  clone.querySelectorAll('[data-ed]').forEach(el => el.removeAttribute('data-ed'));
+  const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], {type:'text/html'}));
+  a.download = 'ETAC-03-Guia.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ── INIT ── */
+loadChecklists();
+updateActiveNav();
+</script>
+</body>
+</html>
