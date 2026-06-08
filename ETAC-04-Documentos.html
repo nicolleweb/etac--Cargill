@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETAC — Painel de Documentos e Projetos | Cargill</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --green:       #00703C;
+  --green-dark:  #004D29;
+  --green-mid:   #00873F;
+  --green-light: #E8F5EE;
+  --green-pale:  #F2FAF5;
+  --amber:       #B45309;
+  --amber-bg:    #FFFBEB;
+  --amber-bdr:   rgba(180,83,9,0.22);
+  --blue:        #1B5EA6;
+  --blue-bg:     #EEF4FF;
+  --blue-bdr:    rgba(27,94,166,0.22);
+  --red:         #B91C1C;
+  --red-bg:      #FFF1F1;
+  --red-bdr:     rgba(185,28,28,0.22);
+  --purple:      #6D28D9;
+  --purple-bg:   #F5F3FF;
+  --purple-bdr:  rgba(109,40,217,0.22);
+  --teal:        #0F766E;
+  --teal-bg:     #F0FDFA;
+  --teal-bdr:    rgba(15,118,110,0.22);
+  --bg:          #F4F6F5;
+  --surface:     #FFFFFF;
+  --surface2:    #F8FAF9;
+  --border:      #D5E3DA;
+  --border-2:    #B3C9BB;
+  --text:        #192420;
+  --text-2:      #3A4F46;
+  --muted:       #687870;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --radius: 14px;
+  --shadow: 0 2px 16px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.13);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+}
+
+/* ══ HEADER ══ */
+header {
+  background: var(--green);
+  border-bottom: 3px solid var(--green-dark);
+  position: sticky; top: 0; z-index: 200;
+}
+.hinner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 40px;
+  display: flex; align-items: stretch; min-height: 62px;
+}
+.brand {
+  display: flex; align-items: center; gap: 11px;
+  padding-right: 26px; margin-right: 26px;
+  border-right: 1px solid rgba(255,255,255,0.17);
+  flex-shrink: 0; text-decoration: none;
+}
+.brand-mark {
+  width: 35px; height: 35px; background: white;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.brand-name { font-weight: 700; font-size: 16px; color: white; letter-spacing: -.3px; }
+.brand-sub  { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,.5); letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
+.hinfo { display: flex; flex-direction: column; justify-content: center; }
+.hinfo h1 { font-size: 13.5px; font-weight: 600; color: white; }
+.hinfo span { font-family: var(--mono); font-size: 9.5px; color: rgba(255,255,255,.55); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+.hnav { margin-left: auto; display: flex; align-items: center; }
+.nav-a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 0 17px; height: 100%;
+  color: rgba(255,255,255,.65); font-size: 12.5px; font-weight: 600;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition: all .18s;
+}
+.nav-a:hover { color: white; background: rgba(255,255,255,.09); }
+.nav-a.on { color: white; border-bottom-color: white; background: rgba(255,255,255,.11); }
+
+/* ══ LAYOUT ══ */
+.page { max-width: 1280px; margin: 0 auto; padding: 38px 40px 100px; }
+
+/* ══ TOP BAR ══ */
+.top-bar {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 30px; flex-wrap: wrap;
+}
+.page-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+.page-title { font-size: 28px; font-weight: 700; color: var(--text); letter-spacing: -.4px; }
+.top-bar-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+
+/* ══ SEARCH + FILTER ══ */
+.searchbar {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 26px; flex-wrap: wrap;
+}
+.search-wrap {
+  position: relative; flex: 1; min-width: 240px;
+}
+.search-wrap input {
+  width: 100%;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 9px; padding: 10px 14px 10px 38px;
+  font-family: var(--sans); font-size: 13px; color: var(--text);
+  outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.search-wrap input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,112,60,.1); }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+.filter-chip {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px;
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  cursor: pointer; transition: all .15s; white-space: nowrap; font-weight: 500;
+}
+.filter-chip:hover, .filter-chip.on { background: var(--green-light); color: var(--green); border-color: var(--border-2); }
+.filter-chip.on { font-weight: 600; }
+
+/* ══ STAT PILLS ══ */
+.stats-row { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+.stat-pill {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 40px; padding: 7px 18px;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: var(--shadow);
+}
+.sp-num { font-family: var(--mono); font-size: 18px; font-weight: 600; color: var(--text); line-height: 1; }
+.sp-lbl { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+.sp-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ══ CARDS GRID ══ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+/* ══ DOC CARD ══ */
+.doc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: box-shadow .2s, border-color .2s, transform .2s;
+  cursor: default;
+  display: flex; flex-direction: column;
+}
+.doc-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-2);
+  transform: translateY(-2px);
+}
+
+/* Photo area */
+.card-photo {
+  width: 100%; height: 170px;
+  background: var(--surface2);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.card-photo img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+}
+.photo-placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--muted);
+}
+.photo-placeholder .ph-icon { font-size: 32px; opacity: .4; }
+.photo-placeholder span { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; opacity: .5; }
+.photo-upload-btn {
+  position: absolute; bottom: 10px; right: 10px;
+  background: rgba(0,0,0,.55); color: white;
+  border: none; border-radius: 6px; padding: 5px 11px;
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: background .15s;
+  display: flex; align-items: center; gap: 5px;
+  backdrop-filter: blur(4px);
+}
+.photo-upload-btn:hover { background: rgba(0,0,0,.75); }
+.card-photo input[type="file"] { display: none; }
+
+/* Category badge */
+.cat-badge {
+  position: absolute; top: 10px; left: 10px;
+  padding: 3px 10px; border-radius: 20px;
+  font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+  letter-spacing: .8px; text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+.cat-projeto   { background: rgba(109,40,217,.85); color: white; }
+.cat-manual    { background: rgba(27,94,166,.85);  color: white; }
+.cat-ficha     { background: rgba(0,112,60,.85);   color: white; }
+.cat-planta    { background: rgba(180,83,9,.85);   color: white; }
+.cat-norma     { background: rgba(185,28,28,.85);  color: white; }
+.cat-outro     { background: rgba(75,85,99,.85);   color: white; }
+
+/* Card body */
+.card-body { padding: 18px 20px; flex: 1; display: flex; flex-direction: column; gap: 0; }
+
+.card-cat-label {
+  font-family: var(--mono); font-size: 9.5px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 5px;
+}
+.card-title-editable {
+  font-size: 15px; font-weight: 700; color: var(--text);
+  line-height: 1.3; margin-bottom: 8px;
+  border: none; outline: none;
+  font-family: var(--sans);
+  background: transparent; width: 100%;
+  resize: none; padding: 0;
+}
+.card-title-editable:focus {
+  background: var(--green-pale); border-radius: 4px; padding: 2px 6px;
+}
+.card-desc-editable {
+  font-size: 12.5px; color: var(--muted); line-height: 1.65;
+  margin-bottom: 14px; flex: 1;
+  border: none; outline: none; font-family: var(--sans);
+  background: transparent; width: 100%; resize: vertical;
+  min-height: 56px;
+}
+.card-desc-editable:focus {
+  background: var(--green-pale); border-radius: 4px; padding: 4px 6px;
+}
+
+/* Meta row */
+.card-meta {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.meta-tag {
+  font-family: var(--mono); font-size: 10px;
+  padding: 2px 9px; border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--muted); background: var(--surface2);
+}
+
+/* Link + QR section */
+.card-link-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+.link-input {
+  flex: 1; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 7px;
+  padding: 7px 11px;
+  font-family: var(--mono); font-size: 11px; color: var(--text-2);
+  outline: none; transition: border-color .15s;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.link-input:focus { border-color: var(--green); background: white; }
+.link-input::placeholder { color: var(--muted); }
+
+.qr-btn {
+  background: var(--green-light); border: 1px solid var(--border-2);
+  color: var(--green); border-radius: 7px;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 15px; transition: all .15s; flex-shrink: 0;
+}
+.qr-btn:hover { background: var(--green); color: white; }
+
+.open-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--muted); border-radius: 7px;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 13px; transition: all .15s; flex-shrink: 0;
+  text-decoration: none;
+}
+.open-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Card actions */
+.card-actions {
+  display: flex; gap: 8px; align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 12px; margin-top: 4px;
+}
+.act-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--muted); font-family: var(--sans);
+  font-size: 11px; font-weight: 600;
+  padding: 5px 12px; border-radius: 6px;
+  cursor: pointer; transition: all .15s;
+  display: flex; align-items: center; gap: 5px;
+}
+.act-btn:hover { color: var(--text); border-color: var(--border-2); background: var(--surface2); }
+.act-btn.danger:hover { color: var(--red); border-color: var(--red-bdr); background: var(--red-bg); }
+.act-btn.primary { background: var(--green); color: white; border-color: var(--green); }
+.act-btn.primary:hover { background: var(--green-dark); }
+
+/* ══ ADD CARD BUTTON ══ */
+.add-card-btn {
+  background: var(--surface);
+  border: 2px dashed var(--border-2);
+  border-radius: var(--radius);
+  min-height: 260px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px; cursor: pointer;
+  transition: all .2s; color: var(--muted);
+}
+.add-card-btn:hover { background: var(--green-pale); border-color: var(--green); color: var(--green); }
+.add-card-icon { font-size: 32px; transition: transform .2s; }
+.add-card-btn:hover .add-card-icon { transform: scale(1.15); }
+.add-card-label { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+
+/* ══ MODAL ══ */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(25,36,32,.55);
+  backdrop-filter: blur(5px);
+  z-index: 900;
+  display: none; align-items: center; justify-content: center;
+}
+.overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  width: 560px; max-width: 96vw;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 28px 80px rgba(0,0,0,.22);
+  animation: slideUp .22s ease;
+}
+@keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+.modal-head {
+  padding: 26px 28px 0;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 22px;
+}
+.modal-head-title { font-size: 18px; font-weight: 700; color: var(--text); }
+.modal-head-sub { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-top: 3px; }
+.modal-close {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--muted); width: 32px; height: 32px;
+  border-radius: 50%; cursor: pointer; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s; flex-shrink: 0;
+}
+.modal-close:hover { background: var(--red-bg); color: var(--red); border-color: var(--red-bdr); }
+
+.modal-body { padding: 0 28px 28px; display: flex; flex-direction: column; gap: 16px; }
+
+.mfield { display: flex; flex-direction: column; gap: 5px; }
+.mfield label { font-family: var(--mono); font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.mfield input, .mfield select, .mfield textarea {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 13px;
+  font-family: var(--sans); font-size: 13px; color: var(--text);
+  outline: none; transition: border-color .15s, box-shadow .15s; width: 100%;
+}
+.mfield input:focus, .mfield select:focus, .mfield textarea:focus {
+  border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,112,60,.1); background: white;
+}
+.mfield input::placeholder, .mfield textarea::placeholder { color: var(--muted); }
+.mfield textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
+.mfield select option { background: white; }
+
+.mgrid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 6px; }
+
+/* Photo upload in modal */
+.photo-drop {
+  border: 2px dashed var(--border-2);
+  border-radius: 10px; padding: 28px;
+  text-align: center; cursor: pointer;
+  transition: all .15s; position: relative;
+}
+.photo-drop:hover { border-color: var(--green); background: var(--green-pale); }
+.photo-drop input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.photo-drop-icon { font-size: 28px; margin-bottom: 6px; }
+.photo-drop-label { font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: .8px; text-transform: uppercase; }
+.photo-drop-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.photo-preview {
+  width: 100%; height: 140px; object-fit: cover;
+  border-radius: 8px; display: none; margin-top: 12px;
+}
+
+/* ══ QR MODAL ══ */
+.qr-modal-inner { max-width: 340px; }
+.qr-display {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; padding: 10px 0;
+}
+.qr-box {
+  background: white; border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.qr-doc-name { font-weight: 700; font-size: 15px; color: var(--text); text-align: center; }
+.qr-doc-url { font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: center; word-break: break-all; max-width: 280px; }
+.qr-print-tip { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .5px; text-align: center; }
+
+/* ══ TOAST ══ */
+.toast {
+  position: fixed; bottom: 28px; right: 28px;
+  background: var(--text); color: white;
+  font-family: var(--mono); font-size: 12px;
+  padding: 12px 20px; border-radius: 10px;
+  z-index: 2000; display: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,.2);
+  animation: slideUp .2s ease;
+}
+.toast.show { display: block; }
+
+/* ══ BOTTOM BAR ══ */
+.bottombar {
+  position: fixed; bottom: 20px; right: 20px; z-index: 400;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 40px; padding: 6px 8px 6px 16px;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.1);
+}
+.bb-btn {
+  background: var(--green); border: none; color: white;
+  font-family: var(--sans); font-size: 11.5px; font-weight: 600;
+  padding: 7px 16px; border-radius: 30px; cursor: pointer; transition: all .18s;
+}
+.bb-btn:hover { background: var(--green-dark); }
+.bb-btn.ghost {
+  background: transparent; border: 1px solid var(--border); color: var(--muted);
+}
+.bb-btn.ghost:hover { color: var(--text); border-color: var(--text); }
+
+/* ══ EMPTY STATE ══ */
+.empty-state {
+  grid-column: 1/-1;
+  text-align: center; padding: 60px 20px; color: var(--muted);
+}
+.empty-state .ei { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-family: var(--mono); font-size: 12px; letter-spacing: .8px; text-transform: uppercase; }
+
+/* ══ SECTION DIVIDER ══ */
+.section-divider {
+  grid-column: 1/-1;
+  display: flex; align-items: center; gap: 14px;
+  margin: 6px 0;
+}
+.sd-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.sd-line { flex: 1; height: 1px; background: var(--border); }
+
+@media(max-width:700px) {
+  .hinner { padding: 0 16px; }
+  .page { padding: 24px 16px 80px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .mgrid2 { grid-template-columns: 1fr; }
+  .hnav { display: none; }
+}
+
+@media print {
+  header, .bottombar, .top-bar, .searchbar, .stats-row, .overlay, .toast { display: none !important; }
+  .doc-card { break-inside: avoid; }
+  .card-actions { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="hinner">
+    <a href="#" class="brand">
+      <div class="brand-mark">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3C7.5 3 4 6.8 4 11.2c0 5.6 8 11.8 8 11.8s8-6.2 8-11.8C20 6.8 16.5 3 12 3z" fill="#00703C"/>
+          <circle cx="12" cy="11" r="3.2" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Cargill</div>
+        <div class="brand-sub">ETAC</div>
+      </div>
+    </a>
+    <div class="hinfo">
+      <h1>Portal Operacional — ETA + Osmose Reversa</h1>
+      <span>Estação de Tratamento de Água</span>
+    </div>
+    <nav class="hnav">
+      <a href="ETAC-01-Processo.html"   class="nav-a">⚙ Processo</a>
+      <a href="ETAC-02-Relatorio.html"  class="nav-a">📋 Relatório</a>
+      <a href="ETAC-03-Guia.html"       class="nav-a">📖 Guia do Operador</a>
+      <a href="ETAC-04-Documentos.html" class="nav-a on">📁 Documentos</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- TOP -->
+  <div class="top-bar">
+    <div>
+      <div class="page-eyebrow">Base de conhecimento técnico</div>
+      <div class="page-title">Documentos e Projetos</div>
+    </div>
+    <div class="top-bar-right">
+      <button class="act-btn primary" onclick="openNew()">+ Novo documento</button>
+    </div>
+  </div>
+
+  <!-- SEARCH + FILTERS -->
+  <div class="searchbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Buscar por título, descrição ou tag..." oninput="renderCards()">
+    </div>
+    <button class="filter-chip on" data-filter="todos" onclick="setFilter('todos',this)">Todos</button>
+    <button class="filter-chip" data-filter="projeto"  onclick="setFilter('projeto',this)">Projetos</button>
+    <button class="filter-chip" data-filter="manual"   onclick="setFilter('manual',this)">Manuais</button>
+    <button class="filter-chip" data-filter="ficha"    onclick="setFilter('ficha',this)">Fichas</button>
+    <button class="filter-chip" data-filter="planta"   onclick="setFilter('planta',this)">Plantas</button>
+    <button class="filter-chip" data-filter="norma"    onclick="setFilter('norma',this)">Normas</button>
+    <button class="filter-chip" data-filter="outro"    onclick="setFilter('outro',this)">Outros</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row" id="statsRow"></div>
+
+  <!-- CARDS -->
+  <div class="cards-grid" id="cardsGrid"></div>
+
+</div><!-- /page -->
+
+<!-- ══ MODAL: NOVO / EDITAR ══ -->
+<div class="overlay" id="editOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-head-title" id="modalTitle">Novo Documento</div>
+        <div class="modal-head-sub">PREENCHA AS INFORMAÇÕES E SALVE</div>
+      </div>
+      <button class="modal-close" onclick="closeEdit()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Foto -->
+      <div class="mfield">
+        <label>Foto / Imagem de capa</label>
+        <div class="photo-drop" id="photoDrop">
+          <input type="file" accept="image/*" id="photoInput" onchange="handlePhotoUpload(event)">
+          <div class="photo-drop-icon">🖼️</div>
+          <div class="photo-drop-label">Clique ou arraste uma imagem</div>
+          <div class="photo-drop-sub">JPG, PNG, WebP · Máx 5 MB</div>
+        </div>
+        <img class="photo-preview" id="photoPreview" alt="">
+      </div>
+
+      <!-- Título -->
+      <div class="mfield">
+        <label>Título do documento *</label>
+        <input type="text" id="m-title" placeholder="Ex: Projeto de Ampliação do Sistema OR">
+      </div>
+
+      <!-- Categoria + Status -->
+      <div class="mgrid2">
+        <div class="mfield">
+          <label>Categoria</label>
+          <select id="m-cat">
+            <option value="projeto">Projeto</option>
+            <option value="manual">Manual / Guia</option>
+            <option value="ficha">Ficha Técnica</option>
+            <option value="planta">Planta / Desenho</option>
+            <option value="norma">Norma / Procedimento</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="mfield">
+          <label>Status</label>
+          <select id="m-status">
+            <option value="vigente">✅ Vigente</option>
+            <option value="revisao">🔄 Em revisão</option>
+            <option value="obsoleto">⛔ Obsoleto</option>
+            <option value="rascunho">📝 Rascunho</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Descrição -->
+      <div class="mfield">
+        <label>Descrição / Resumo</label>
+        <textarea id="m-desc" placeholder="Descreva o conteúdo, escopo, equipamentos envolvidos..."></textarea>
+      </div>
+
+      <!-- Responsável + Data -->
+      <div class="mgrid2">
+        <div class="mfield">
+          <label>Responsável técnico</label>
+          <input type="text" id="m-resp" placeholder="Nome ou cargo">
+        </div>
+        <div class="mfield">
+          <label>Data do documento</label>
+          <input type="date" id="m-date">
+        </div>
+      </div>
+
+      <!-- Revisão + Código -->
+      <div class="mgrid2">
+        <div class="mfield">
+          <label>Revisão / Versão</label>
+          <input type="text" id="m-rev" placeholder="Ex: Rev. 02 · 2024">
+        </div>
+        <div class="mfield">
+          <label>Código / N° do documento</label>
+          <input type="text" id="m-cod" placeholder="Ex: ETAC-DOC-007">
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="mfield">
+        <label>Tags (separadas por vírgula)</label>
+        <input type="text" id="m-tags" placeholder="Ex: OR, bomba, membrana, CIP">
+      </div>
+
+      <!-- Link externo (para QR) -->
+      <div class="mfield">
+        <label>Link externo (para QR Code)</label>
+        <input type="url" id="m-link" placeholder="https://drive.google.com/... ou qualquer URL">
+      </div>
+
+      <!-- Notas adicionais -->
+      <div class="mfield">
+        <label>Notas adicionais / Localização física</label>
+        <input type="text" id="m-notes" placeholder="Ex: Arquivo físico: Pasta 3 · Gaveta B · Sala técnica">
+      </div>
+
+      <div class="modal-actions">
+        <button class="act-btn primary" onclick="saveDoc()" style="padding:10px 24px; font-size:13px">💾 Salvar documento</button>
+        <button class="act-btn" onclick="closeEdit()" style="padding:10px 20px; font-size:13px">Cancelar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: QR CODE ══ -->
+<div class="overlay" id="qrOverlay">
+  <div class="modal qr-modal-inner">
+    <div class="modal-head">
+      <div>
+        <div class="modal-head-title">QR Code</div>
+        <div class="modal-head-sub">APONTA PARA O LINK EXTERNO</div>
+      </div>
+      <button class="modal-close" onclick="closeQR()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="qr-display">
+        <div class="qr-doc-name" id="qrDocName"></div>
+        <div class="qr-box">
+          <div id="qrCanvas"></div>
+        </div>
+        <div class="qr-doc-url" id="qrDocUrl"></div>
+        <div class="qr-print-tip">Imprima e cole no equipamento ou pasta</div>
+      </div>
+      <div class="modal-actions" style="justify-content:center">
+        <button class="act-btn primary" onclick="printQR()" style="padding:10px 22px; font-size:13px">🖨️ Imprimir QR</button>
+        <button class="act-btn" onclick="downloadQR()" style="padding:10px 22px; font-size:13px">⬇ Baixar imagem</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- BOTTOM BAR -->
+<div class="bottombar">
+  <button class="bb-btn ghost" onclick="exportBackup()">⬇ Backup JSON</button>
+  <button class="bb-btn ghost" onclick="document.getElementById('importInput').click()">↑ Importar</button>
+  <input type="file" id="importInput" accept=".json" style="display:none" onchange="importBackup(event)">
+  <button class="bb-btn" onclick="openNew()">+ Novo</button>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   DATA LAYER  —  localStorage
+══════════════════════════════════════════════ */
+const DB_KEY = 'etac_docs_v2';
+
+function loadDocs() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY)) || []; }
+  catch(e) { return []; }
+}
+function saveDocs(arr) {
+  localStorage.setItem(DB_KEY, JSON.stringify(arr));
+}
+
+let docs = loadDocs();
+let editingId = null;
+let currentFilter = 'todos';
+let currentPhoto = null; // base64
+
+/* ══ SEED DEMO DATA ══ */
+if (docs.length === 0) {
+  docs = [
+    {
+      id: uid(), title: 'Projeto de Implantação do Sistema OR',
+      cat: 'projeto', status: 'vigente',
+      desc: 'Projeto completo de instalação das membranas de osmose reversa, incluindo dimensionamento de bomba de alta pressão, linha de permeado e sistema de rejeito.',
+      resp: 'Eng. Carlos Mendes', date: '2023-06-15',
+      rev: 'Rev. 03 · 2023', cod: 'ETAC-PRJ-001',
+      tags: 'OR, membrana, bomba HP, rejeito',
+      link: 'https://drive.google.com', notes: 'Pasta 1 · Prateleira A · Sala Técnica',
+      photo: null, createdAt: new Date().toISOString()
+    },
+    {
+      id: uid(), title: 'Manual de Operação — Filtros de Areia',
+      cat: 'manual', status: 'vigente',
+      desc: 'Instruções de operação, retrolavagem, inspeção e manutenção dos filtros de areia e carvão ativado. Inclui tabela de frequência de retrolavagem e parâmetros de perda de carga.',
+      resp: 'Supervisão Operacional', date: '2024-01-10',
+      rev: 'Rev. 01 · 2024', cod: 'ETAC-MAN-003',
+      tags: 'filtro, areia, carvão, retrolavagem',
+      link: '', notes: 'Arquivo digital disponível na rede interna',
+      photo: null, createdAt: new Date().toISOString()
+    },
+    {
+      id: uid(), title: 'Ficha Técnica — Bomba de Captação #1',
+      cat: 'ficha', status: 'vigente',
+      desc: 'Dados técnicos completos da bomba centrífuga de captação: modelo, fabricante, curva de bomba, potência nominal, vazão de projeto e histórico de manutenções.',
+      resp: 'Manutenção Mecânica', date: '2022-09-01',
+      rev: 'Rev. 00', cod: 'ETAC-FT-BC01',
+      tags: 'bomba, captação, centrífuga, mecânica',
+      link: '', notes: 'TAG: BC-001 · Poço de captação',
+      photo: null, createdAt: new Date().toISOString()
+    },
+    {
+      id: uid(), title: 'Planta Isométrica — Linha de OR',
+      cat: 'planta', status: 'revisao',
+      desc: 'Desenho isométrico da tubulação de alta pressão da osmose reversa. Em revisão para adequação após substituição das membranas em Jan/2024.',
+      resp: 'Eng. Beatriz Souza', date: '2024-01-20',
+      rev: 'Rev. 04 · Jan-2024 (em revisão)', cod: 'ETAC-DWG-OR-04',
+      tags: 'planta, OR, isométrico, tubulação, alta pressão',
+      link: '', notes: 'AutoCAD: servidor interno /ETAC/plantas/OR/',
+      photo: null, createdAt: new Date().toISOString()
+    },
+    {
+      id: uid(), title: 'Procedimento de CIP — Membranas OR',
+      cat: 'norma', status: 'vigente',
+      desc: 'Procedimento operacional padrão para limpeza química in place (CIP) das membranas de OR. Inclui soluções de limpeza, sequência de etapas, EPIs e critérios de aceitação.',
+      resp: 'Qualidade e Operação', date: '2023-11-05',
+      rev: 'Rev. 02 · 2023', cod: 'ETAC-POP-CIP-01',
+      tags: 'CIP, membrana, limpeza, procedimento, OR',
+      link: '', notes: 'Afixar cópia na sala do sistema OR',
+      photo: null, createdAt: new Date().toISOString()
+    }
+  ];
+  saveDocs(docs);
+}
+
+/* ══ UID ══ */
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+/* ══ CAT CONFIG ══ */
+const CAT = {
+  projeto: { label: 'Projeto',      icon: '📐', cls: 'cat-projeto',  color: '#6D28D9' },
+  manual:  { label: 'Manual',       icon: '📖', cls: 'cat-manual',   color: '#1B5EA6' },
+  ficha:   { label: 'Ficha Técnica',icon: '🗂️', cls: 'cat-ficha',    color: '#00703C' },
+  planta:  { label: 'Planta',       icon: '📏', cls: 'cat-planta',   color: '#B45309' },
+  norma:   { label: 'Norma / POP',  icon: '📋', cls: 'cat-norma',    color: '#B91C1C' },
+  outro:   { label: 'Outro',        icon: '📄', cls: 'cat-outro',    color: '#4B5563' },
+};
+
+const STATUS = {
+  vigente:  { label: '✅ Vigente',    bg: '#E8F5EE', color: '#004D29' },
+  revisao:  { label: '🔄 Em revisão', bg: '#FFFBEB', color: '#B45309' },
+  obsoleto: { label: '⛔ Obsoleto',   bg: '#FFF1F1', color: '#B91C1C' },
+  rascunho: { label: '📝 Rascunho',   bg: '#F5F3FF', color: '#6D28D9' },
+};
+
+/* ══ FILTER ══ */
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  renderCards();
+}
+
+/* ══ RENDER ══ */
+function renderCards() {
+  const q    = (document.getElementById('searchInput').value || '').toLowerCase();
+  const grid = document.getElementById('cardsGrid');
+
+  let filtered = docs.filter(d => {
+    const matchCat  = currentFilter === 'todos' || d.cat === currentFilter;
+    const matchText = !q || [d.title, d.desc, d.tags, d.cod, d.resp].join(' ').toLowerCase().includes(q);
+    return matchCat && matchText;
+  });
+
+  // Sort: newest first
+  filtered = filtered.slice().sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+
+  // Stats
+  renderStats();
+
+  // Grid
+  grid.innerHTML = '';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="ei">📭</div><p>Nenhum documento encontrado</p></div>`;
+  } else {
+    filtered.forEach(doc => {
+      grid.appendChild(buildCard(doc));
+    });
+  }
+
+  // Add button always at end
+  const addBtn = document.createElement('div');
+  addBtn.className = 'add-card-btn';
+  addBtn.innerHTML = `<div class="add-card-icon">＋</div><div class="add-card-label">Novo documento</div>`;
+  addBtn.onclick = openNew;
+  grid.appendChild(addBtn);
+}
+
+function renderStats() {
+  const row = document.getElementById('statsRow');
+  const total = docs.length;
+  const cats = {};
+  docs.forEach(d => { cats[d.cat] = (cats[d.cat]||0)+1; });
+  const vigentes = docs.filter(d=>d.status==='vigente').length;
+  const comLink  = docs.filter(d=>d.link).length;
+
+  row.innerHTML = `
+    <div class="stat-pill"><span class="sp-num">${total}</span><span class="sp-lbl">Total</span></div>
+    <div class="stat-pill"><span class="sp-dot" style="background:#00703C"></span><span class="sp-num">${vigentes}</span><span class="sp-lbl">Vigentes</span></div>
+    <div class="stat-pill"><span class="sp-dot" style="background:#6D28D9"></span><span class="sp-num">${cats.projeto||0}</span><span class="sp-lbl">Projetos</span></div>
+    <div class="stat-pill"><span class="sp-dot" style="background:#1B5EA6"></span><span class="sp-num">${cats.manual||0}</span><span class="sp-lbl">Manuais</span></div>
+    <div class="stat-pill"><span class="sp-dot" style="background:#B45309"></span><span class="sp-num">${comLink}</span><span class="sp-lbl">Com QR</span></div>
+  `;
+}
+
+/* ══ BUILD CARD ══ */
+function buildCard(doc) {
+  const cat = CAT[doc.cat] || CAT.outro;
+  const st  = STATUS[doc.status] || STATUS.vigente;
+  const tags = (doc.tags||'').split(',').map(t=>t.trim()).filter(Boolean);
+
+  const card = document.createElement('div');
+  card.className = 'doc-card';
+  card.dataset.id = doc.id;
+
+  /* PHOTO */
+  let photoHTML;
+  if (doc.photo) {
+    photoHTML = `
+      <img src="${doc.photo}" alt="${doc.title}" style="width:100%;height:100%;object-fit:cover">
+      <span class="cat-badge ${cat.cls}">${cat.icon} ${cat.label}</span>
+      <label class="photo-upload-btn">
+        🖼 Trocar foto
+        <input type="file" accept="image/*" onchange="quickPhotoUpdate('${doc.id}',event)">
+      </label>`;
+  } else {
+    photoHTML = `
+      <div class="photo-placeholder">
+        <div class="ph-icon">${cat.icon}</div>
+        <span>${cat.label}</span>
+      </div>
+      <span class="cat-badge ${cat.cls}">${cat.icon} ${cat.label}</span>
+      <label class="photo-upload-btn">
+        📷 Adicionar foto
+        <input type="file" accept="image/*" onchange="quickPhotoUpdate('${doc.id}',event)">
+      </label>`;
+  }
+
+  /* STATUS + TAGS */
+  const tagHTML = tags.map(t=>`<span class="meta-tag">${t}</span>`).join('');
+
+  /* LINK BUTTON */
+  const linkBtn = doc.link
+    ? `<a class="open-btn" href="${doc.link}" target="_blank" rel="noopener" title="Abrir link">↗</a>`
+    : `<span class="open-btn" style="opacity:.3;cursor:default" title="Sem link">↗</span>`;
+
+  card.innerHTML = `
+    <div class="card-photo">${photoHTML}</div>
+    <div class="card-body">
+      <div class="card-cat-label">${doc.cod ? doc.cod + ' · ' : ''}${doc.rev||''}</div>
+      <textarea class="card-title-editable" rows="2" onblur="inlineUpdate('${doc.id}','title',this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}">${escHtml(doc.title)}</textarea>
+      <textarea class="card-desc-editable" rows="3" onblur="inlineUpdate('${doc.id}','desc',this.value)">${escHtml(doc.desc)}</textarea>
+      <div class="card-meta">
+        <span class="meta-tag" style="background:${st.bg};color:${st.color};border-color:${st.color}22">${st.label}</span>
+        ${doc.resp ? `<span class="meta-tag">👤 ${escHtml(doc.resp)}</span>` : ''}
+        ${doc.date ? `<span class="meta-tag">📅 ${fmtDate(doc.date)}</span>` : ''}
+        ${tagHTML}
+      </div>
+      <div class="card-link-row">
+        <input class="link-input" type="url" placeholder="Cole o link aqui para gerar QR…"
+          value="${escHtml(doc.link||'')}"
+          onblur="inlineUpdate('${doc.id}','link',this.value)"
+          onkeydown="if(event.key==='Enter')this.blur()">
+        <button class="qr-btn" onclick="openQR('${doc.id}')" title="Gerar QR Code">⬛</button>
+        ${linkBtn}
+      </div>
+      <div class="card-actions">
+        <button class="act-btn" onclick="openEdit('${doc.id}')">✏️ Editar</button>
+        <button class="act-btn" onclick="openQR('${doc.id}')">⬛ QR Code</button>
+        <button class="act-btn danger" onclick="deleteDoc('${doc.id}')">🗑 Excluir</button>
+      </div>
+    </div>`;
+
+  return card;
+}
+
+/* ══ INLINE UPDATE ══ */
+function inlineUpdate(id, field, val) {
+  const doc = docs.find(d=>d.id===id);
+  if (!doc) return;
+  doc[field] = val;
+  saveDocs(docs);
+  // Re-render only stats (avoid losing focus)
+  renderStats();
+}
+
+/* ══ QUICK PHOTO ══ */
+function quickPhotoUpdate(id, event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { toast('⚠️ Imagem muito grande. Máx 5 MB.'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const doc = docs.find(d=>d.id===id);
+    if (doc) {
+      doc.photo = e.target.result;
+      saveDocs(docs);
+      renderCards();
+      toast('🖼️ Foto atualizada!');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ══ OPEN NEW ══ */
+function openNew() {
+  editingId = null;
+  currentPhoto = null;
+  document.getElementById('modalTitle').textContent = 'Novo Documento';
+  clearModal();
+  document.getElementById('m-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('editOverlay').classList.add('open');
+}
+
+/* ══ OPEN EDIT ══ */
+function openEdit(id) {
+  const doc = docs.find(d=>d.id===id);
+  if (!doc) return;
+  editingId = id;
+  currentPhoto = doc.photo || null;
+  document.getElementById('modalTitle').textContent = 'Editar Documento';
+
+  document.getElementById('m-title').value  = doc.title || '';
+  document.getElementById('m-cat').value    = doc.cat   || 'projeto';
+  document.getElementById('m-status').value = doc.status|| 'vigente';
+  document.getElementById('m-desc').value   = doc.desc  || '';
+  document.getElementById('m-resp').value   = doc.resp  || '';
+  document.getElementById('m-date').value   = doc.date  || '';
+  document.getElementById('m-rev').value    = doc.rev   || '';
+  document.getElementById('m-cod').value    = doc.cod   || '';
+  document.getElementById('m-tags').value   = doc.tags  || '';
+  document.getElementById('m-link').value   = doc.link  || '';
+  document.getElementById('m-notes').value  = doc.notes || '';
+
+  const prev = document.getElementById('photoPreview');
+  if (doc.photo) { prev.src = doc.photo; prev.style.display = 'block'; }
+  else { prev.style.display = 'none'; }
+
+  document.getElementById('editOverlay').classList.add('open');
+}
+
+function closeEdit() {
+  document.getElementById('editOverlay').classList.remove('open');
+  editingId = null; currentPhoto = null;
+}
+
+function clearModal() {
+  ['m-title','m-desc','m-resp','m-date','m-rev','m-cod','m-tags','m-link','m-notes'].forEach(id=>{
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('m-cat').value    = 'projeto';
+  document.getElementById('m-status').value = 'vigente';
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoPreview').src = '';
+}
+
+/* ══ PHOTO UPLOAD IN MODAL ══ */
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { toast('⚠️ Imagem muito grande. Máx 5 MB.'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    currentPhoto = e.target.result;
+    const prev = document.getElementById('photoPreview');
+    prev.src = currentPhoto;
+    prev.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ══ SAVE DOC ══ */
+function saveDoc() {
+  const title = document.getElementById('m-title').value.trim();
+  if (!title) { toast('⚠️ Título obrigatório.'); return; }
+
+  const docData = {
+    title,
+    cat:    document.getElementById('m-cat').value,
+    status: document.getElementById('m-status').value,
+    desc:   document.getElementById('m-desc').value.trim(),
+    resp:   document.getElementById('m-resp').value.trim(),
+    date:   document.getElementById('m-date').value,
+    rev:    document.getElementById('m-rev').value.trim(),
+    cod:    document.getElementById('m-cod').value.trim(),
+    tags:   document.getElementById('m-tags').value.trim(),
+    link:   document.getElementById('m-link').value.trim(),
+    notes:  document.getElementById('m-notes').value.trim(),
+    photo:  currentPhoto,
+  };
+
+  if (editingId) {
+    const idx = docs.findIndex(d=>d.id===editingId);
+    if (idx !== -1) {
+      docs[idx] = { ...docs[idx], ...docData };
+      toast('✅ Documento atualizado!');
+    }
+  } else {
+    docs.unshift({ id: uid(), createdAt: new Date().toISOString(), ...docData });
+    toast('✅ Documento criado!');
+  }
+
+  saveDocs(docs);
+  closeEdit();
+  renderCards();
+}
+
+/* ══ DELETE ══ */
+function deleteDoc(id) {
+  const doc = docs.find(d=>d.id===id);
+  if (!doc) return;
+  if (!confirm(`Excluir "${doc.title}"?\n\nEsta ação não pode ser desfeita.`)) return;
+  docs = docs.filter(d=>d.id!==id);
+  saveDocs(docs);
+  renderCards();
+  toast('🗑 Documento excluído.');
+}
+
+/* ══ QR CODE ══ */
+let qrInstance = null;
+
+function openQR(id) {
+  const doc = docs.find(d=>d.id===id);
+  if (!doc) return;
+
+  // Try to get link from the card's inline input first (may have been edited inline)
+  const cardEl = document.querySelector(`.doc-card[data-id="${id}"]`);
+  const inlineLink = cardEl ? (cardEl.querySelector('.link-input')?.value || '').trim() : '';
+  const url = inlineLink || doc.link || '';
+
+  if (!url) {
+    toast('⚠️ Adicione um link externo para gerar o QR Code.');
+    return;
+  }
+
+  document.getElementById('qrDocName').textContent = doc.title;
+  document.getElementById('qrDocUrl').textContent  = url;
+
+  const canvas = document.getElementById('qrCanvas');
+  canvas.innerHTML = '';
+
+  qrInstance = new QRCode(canvas, {
+    text: url,
+    width: 220, height: 220,
+    colorDark:  '#00703C',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  document.getElementById('qrOverlay').classList.add('open');
+}
+
+function closeQR() {
+  document.getElementById('qrOverlay').classList.remove('open');
+  qrInstance = null;
+}
+
+function printQR() {
+  const name  = document.getElementById('qrDocName').textContent;
+  const url   = document.getElementById('qrDocUrl').textContent;
+  const img   = document.getElementById('qrCanvas').querySelector('img');
+  if (!img) return;
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <!DOCTYPE html><html><head><title>QR Code — ${name}</title>
+    <style>
+      body { font-family: 'IBM Plex Sans', sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; gap:16px; background:white; }
+      .box { border: 3px solid #00703C; border-radius: 14px; padding: 28px 32px; text-align:center; }
+      h2 { font-size: 16px; color: #004D29; margin-bottom: 6px; }
+      img { width:200px; height:200px; margin: 12px 0; }
+      p { font-size: 10px; color: #6B8070; font-family: monospace; word-break:break-all; max-width:240px; }
+      .sub { font-size: 11px; color: #6B8070; margin-top: 4px; }
+      .brand { font-size: 12px; color: #00703C; font-weight: 700; letter-spacing: 1px; margin-top: 8px; }
+    </style></head><body>
+    <div class="box">
+      <div class="brand">CARGILL · ETAC</div>
+      <h2>${name}</h2>
+      <img src="${img.src}" alt="QR Code">
+      <p>${url}</p>
+      <div class="sub">Aponte a câmera do celular para acessar o documento</div>
+    </div>
+    <script>window.onload=()=>window.print()<\/script>
+    </body></html>`);
+  win.document.close();
+}
+
+function downloadQR() {
+  const img = document.getElementById('qrCanvas').querySelector('img');
+  if (!img) return;
+  const name = document.getElementById('qrDocName').textContent.replace(/[^a-zA-Z0-9]/g,'_').slice(0,40);
+  const a = document.createElement('a');
+  a.href = img.src;
+  a.download = 'QR_' + name + '.png';
+  a.click();
+  toast('⬇ QR Code baixado!');
+}
+
+/* ══ BACKUP ══ */
+function exportBackup() {
+  const json = JSON.stringify(docs, null, 2);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([json],{type:'application/json'}));
+  a.download = 'ETAC-Documentos-backup-' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('✅ Backup exportado!');
+}
+
+function importBackup(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!Array.isArray(imported)) throw new Error('Formato inválido');
+      if (!confirm(`Importar ${imported.length} documento(s)?\n\nOs documentos existentes serão MANTIDOS. Os importados serão adicionados.`)) return;
+      const existingIds = new Set(docs.map(d=>d.id));
+      let added = 0;
+      imported.forEach(d => {
+        if (!existingIds.has(d.id)) { docs.unshift(d); added++; }
+      });
+      saveDocs(docs);
+      renderCards();
+      toast(`✅ ${added} documento(s) importado(s)!`);
+    } catch(err) { toast('❌ Arquivo inválido.'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+/* ══ HELPERS ══ */
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmtDate(iso) {
+  if (!iso) return '';
+  const [y,m,d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+/* ══ CLOSE OVERLAY ON BG CLICK ══ */
+document.getElementById('editOverlay').addEventListener('click', function(e){
+  if (e.target === this) closeEdit();
+});
+document.getElementById('qrOverlay').addEventListener('click', function(e){
+  if (e.target === this) closeQR();
+});
+
+/* ══ INIT ══ */
+renderCards();
+</script>
+</body>
+</html>
