@@ -146,10 +146,7 @@ async function load(){
   try{
     const snap=await get(ref(db,'relatorios'));
     todos=[];
-    if(snap.exists()) snap.forEach(c=>todos.push({key:c.key,d:c.val()})); 
-    console.log("TOTAL CARREGADO:", todos.length);
-    console.log(todos);
-alert("Quantidade: " + todos.length);
+    if(snap.exists()) snap.forEach(c=>todos.push({key:c.key,d:c.val()}));
     todos.sort((a,b)=>(b.d.id?.data||'').localeCompare(a.d.id?.data||''));
     stats(); paineis(); lista(todos);
   }catch(e){
